@@ -51,7 +51,7 @@ secret_santa_bot/
 
 1. Клонирование репозитория
 ```bash
-git clone https://github.com/your-username/secret-santa-bot.git
+git clone https://github.com/bolgoff/secret-santa-bot.git
 cd secret-santa-bot
 ```
 2. Создание виртуального окружения
