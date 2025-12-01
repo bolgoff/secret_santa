@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 from config import BOT_TOKEN
 from database.core import create_tables
 
-from handlers import common, game_creation, game_management, game_joining, draw_logic
+from handlers import common, game_creation, game_management, game_joining, draw_logic, game_editing
 
 async def main():
     logging.basicConfig(level=logging.INFO)
@@ -18,6 +18,7 @@ async def main():
     dp.include_router(game_creation.router)
     dp.include_router(game_joining.router)
     dp.include_router(game_management.router)
+    dp.include_router(game_editing.router)
     dp.include_router(draw_logic.router)
     
     await bot.delete_webhook(drop_pending_updates=True)

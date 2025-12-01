@@ -77,3 +77,21 @@ def get_exclusions(game_id):
     with get_connection() as conn:
         rows = conn.execute("SELECT player_id, forbidden_id FROM exclusions WHERE game_id = ?", (game_id,)).fetchall()
         return [(r['player_id'], r['forbidden_id']) for r in rows]
+    
+def update_wishlist(player_id, new_text):
+    with get_connection() as conn:
+        conn.execute("UPDATE players SET wishlist = ? WHERE id = ?", (new_text, player_id))
+        conn.commit()
+
+def leave_game(game_id, user_id):
+    with get_connection() as conn:
+        player = conn.execute("SELECT id FROM players WHERE game_id = ? AND user_id = ?", 
+                              (game_id, user_id)).fetchone()
+        
+        if player:
+            p_id = player['id']
+            conn.execute("DELETE FROM exclusions WHERE player_id = ? OR forbidden_id = ?", (p_id, p_id))
+            conn.execute("DELETE FROM players WHERE id = ?", (p_id,))
+            conn.commit()
+            return True
+        return False
